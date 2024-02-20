@@ -12,40 +12,6 @@ def read_csv(filename):
 
 def count_transitions(data):
     transitions = {}
-    current_ldr = None
-    start_time = None
-    for row in data:
-        for ldr, value in row.items():
-            if ldr.startswith('LDR'):
-                value = int(value)
-                if value == 100 and ldr != current_ldr:
-                    if current_ldr:
-                        transitions[current_ldr + ' to ' + ldr] = transitions.get(current_ldr + ' to ' + ldr, 0) + 1
-                        if start_time:
-                            end_time = int(row['Timestamp'])
-                            duration = end_time - start_time
-                            print(f"Number of times moved from {current_ldr} to {ldr}: {transitions[current_ldr + ' to ' + ldr]} Time taken: {duration}ms")
-                            start_time = None
-                    current_ldr = ldr
-                    start_time = int(row['Timestamp'])
-                elif value == 0 and ldr == current_ldr:
-                    start_time = None
-    return transitions
-
-data = read_csv('data.csv')
-count_transitions(data)
-
-
-def read_csv(filename):
-    data = []
-    with open(filename, 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            data.append(row)
-    return data
-
-def count_transitions(data):
-    transitions = {}
     time_taken = {}
     current_ldr = None
     start_time = None
